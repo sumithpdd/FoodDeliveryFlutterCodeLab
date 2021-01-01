@@ -1,5 +1,5 @@
 ---
-title: "2. HomeScreenandAppbar"
+title: "4. STEP 4"
 contentkey: "labstep"
 metaTitle: "Update Home Screen and appbar"
 metaDescription: "This is the meta description for this page"
