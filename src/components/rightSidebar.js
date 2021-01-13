@@ -16,6 +16,9 @@ const SidebarLayout = ({ location }) => (
                 slug
               }
               tableOfContents
+              fields {
+                slug
+              }
             }
           }
         }
@@ -27,7 +30,9 @@ const SidebarLayout = ({ location }) => (
       let finalNavItems;
 
       if (allMdx.edges !== undefined && allMdx.edges.length > 0) {
+        console.log('testing');
         const navItems = allMdx.edges.map((item, index) => {
+
           let innerItems;
 
           if (item !== undefined) {
@@ -36,17 +41,42 @@ const SidebarLayout = ({ location }) => (
               config.gatsby.pathPrefix + item.node.fields.slug === location.pathname
             ) {
               if (item.node.tableOfContents.items) {
+                //table content start first
                 innerItems = item.node.tableOfContents.items.map((innerItem, index) => {
+
                   const itemId = innerItem.title
                     ? innerItem.title.replace(/\s+/g, '').toLowerCase()
                     : '#';
+                    let itemsofitems;
 
-                  return (
+
+                  return (<div>
                     <ListItem key={index} to={`#${itemId}`} level={1}>
                       {innerItem.title}
                     </ListItem>
-                  );
+                    {
+
+                    // secon tableofcontecnt start
+                    innerItem.items !== undefined ?
+
+                    innerItems = innerItem.items.map((innerItem1, index) => {
+
+                      const itemId1 = innerItem1.title
+                        ? innerItem1.title.replace(/\s+/g, '').toLowerCase()
+                        : '#';
+
+                      return (
+                        <ListItem key={index} to={`#${itemId1}`} level={2}>
+                          {innerItem1.title}
+                        </ListItem>)
+                    })
+                    : ''
+                  }
+                    {/* //secon tableofcontecnt end */}
+
+                  </div>)
                 });
+                //table content ending first
               }
             }
           }
