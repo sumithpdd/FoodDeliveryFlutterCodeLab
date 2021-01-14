@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import config from '../../../config';
 import TreeNode from './treeNode';
+import Link from '../link';
+
 
 const calculateTreeData = edges => {
   const originalData = config.sidebar.ignoreIndex
     ? edges.filter(
-        ({
-          node: {
-            fields: { slug },
-          },
-        }) => slug !== '/'
-      )
+      ({
+        node: {
+          fields: { slug },
+        },
+      }) => slug !== '/'
+    )
     : edges;
 
   const tree = originalData.reduce(
@@ -97,7 +99,7 @@ const calculateTreeData = edges => {
     }
     // sort items alphabetically.
     prevItems.map(item => {
-      item.items = item.items.sort(function(a, b) {
+      item.items = item.items.sort(function (a, b) {
         if (a.label < b.label) return -1;
         if (a.label > b.label) return 1;
         return 0;
@@ -120,6 +122,8 @@ const Tree = ({ edges }) => {
     return calculateTreeData(edges);
   });
 
+
+
   const defaultCollapsed = {};
 
   treeData.items.forEach(item => {
@@ -137,15 +141,49 @@ const Tree = ({ edges }) => {
       [url]: !collapsed[url],
     });
   };
+  let location;
 
+  if (typeof document != 'undefined') {
+    location = document.location;
+  }
+  // let active =
+  //   location && (location.pathname === url || location.pathname === config.gatsby.pathPrefix + url);
+
+  let calculatedClassName = `showFrontLine firstLevel item `;
+
+
+
+  const [checktick, setChecktick] = React.useState([]);
+  const changeStatus = (index) => {
+    if(checktick.indexOf(index) === -1){
+      setChecktick([...checktick, index]);
+    }
+    return 'addd';
+  }
+  console.log('leftecktick');
+  console.log(checktick);
   return (
-    <TreeNode
-      className={`${config.sidebar.frontLine ? 'showFrontLine' : 'hideFrontLine'} firstLevel`}
-      setCollapsed={toggle}
-      collapsed={collapsed}
-      {...treeData}
-    />
+    treeData.items.map((item, index) => (
+      <li className={calculatedClassName} key={index+1}>
+        {
+        item.title && (
+          <Link to={item.url} onClick={() => changeStatus(item.url)}>
+            {
+
+              (checktick.indexOf(item.url) !== -1) ?
+                <div className="checkGreen">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16"><path d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"></path></svg>
+                </div> : index+1
+
+            }
+            <p style={{ marginLeft: '10px' }}>{item.title}</p>
+          </Link>
+        )}
+
+      </li>
+    ))
   );
+
 };
 
 export default Tree;
