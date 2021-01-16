@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import config from '../../../config';
 import TreeNode from './treeNode';
-import Link from '../link';
 
 const calculateTreeData = edges => {
   const originalData = config.sidebar.ignoreIndex
@@ -121,6 +120,8 @@ const Tree = ({ edges }) => {
     return calculateTreeData(edges);
   });
 
+
+
   const defaultCollapsed = {};
 
   treeData.items.forEach(item => {
@@ -150,29 +151,33 @@ const Tree = ({ edges }) => {
 
 
 
-    const changeStatus = () => {
-      return  'abc';
+  const [checktick, setChecktick] = React.useState([]);
+  const changeStatus = (index) => {
+    if(checktick.indexOf(index) === -1){
+      setChecktick([...checktick, index]);
     }
+    return 'addd';
+  }
+  console.log('leftecktick');
+  console.log(checktick);
   return (
     treeData.items.map((item, index) => (
+      <li className={calculatedClassName} key={index+1}>
+        {
+        item.title && (
+          <Link to={item.url} onClick={() => changeStatus(item.url)}>
+            {
 
-      // <TreeNode
-      //   numberValid={index}
-      //   className={`${config.sidebar.frontLine ? 'showFrontLine' : 'hideFrontLine'} firstLevel`}
-      //   setCollapsed={toggle}
-      //   collapsed={collapsed}
-      //   {...treeData}
-      // />
-      <li className={calculatedClassName} onClick={changeStatus}>
-        {item.title && (
-          <Link to={item.url} >
-            <div className="sidebarDiv">{index+1}</div>
-            <div className="checkGreen">
-              <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16"><path d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"></path></svg>
-            </div>
+              (checktick.indexOf(item.url) !== -1) ?
+                <div className="checkGreen">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16"><path d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"></path></svg>
+                </div> : index+1
+
+            }
             <p style={{ marginLeft: '10px' }}>{item.title}</p>
           </Link>
         )}
+
       </li>
     ))
   );

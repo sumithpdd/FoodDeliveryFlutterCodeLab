@@ -30,7 +30,7 @@ const SidebarLayout = ({ location }) => (
       let finalNavItems;
 
       if (allMdx.edges !== undefined && allMdx.edges.length > 0) {
-        console.log('testing');
+
         const navItems = allMdx.edges.map((item, index) => {
 
           let innerItems;
@@ -54,7 +54,10 @@ const SidebarLayout = ({ location }) => (
                     <ListItem key={index} to={`#${itemId}`} level={1}>
                       {innerItem.title}
                     </ListItem>
+
+
                     {
+
 
                     // secon tableofcontecnt start
                     innerItem.items !== undefined ?
