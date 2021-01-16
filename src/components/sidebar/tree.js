@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import config from '../../../config';
 import TreeNode from './treeNode';
+import Link from '../link';
+ 
 
 const calculateTreeData = edges => {
   const originalData = config.sidebar.ignoreIndex
