@@ -47,7 +47,7 @@ const config = {
         ],
         links: [{ text: 'Magostech', link: 'https://magostech.com' }],
         frontline: false,
-        ignoreIndex: true,
+        ignoreIndex: 'index',
         title: "<a href='https://hasura.io/learn/'>graphql </a><div class='greenCircle'></div><a href='https://hasura.io/learn/graphql/react/introduction/'>react</a>",
     },
     siteMetadata: {

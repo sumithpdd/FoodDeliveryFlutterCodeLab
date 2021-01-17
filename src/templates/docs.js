@@ -7,7 +7,7 @@ import { Layout, Link } from '$components';
 import NextPrevious from '../components/NextPrevious';
 import config from '../../config';
 import { Edit, StyledHeading, StyledMainWrapper } from '../components/styles/Docs';
-
+  
 const forcedNavOrder = config.sidebar.forcedNavOrder;
 
 export default class MDXRuntimeTest extends Component {
@@ -106,7 +106,7 @@ export default class MDXRuntimeTest extends Component {
         <div className={'addPaddTopBottom'}>
           <NextPrevious mdx={mdx} nav={nav} />
         </div>
-      </Layout>
+      </Layout> 
     );
   }
 }

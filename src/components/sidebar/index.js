@@ -3,6 +3,7 @@ import Tree from './tree';
 import { StaticQuery, graphql } from 'gatsby';
 import styled from '@emotion/styled';
 import { ExternalLink } from 'react-feather';
+import Link from '../link';
 import config from '../../../config';
 
 // eslint-disable-next-line no-unused-vars
@@ -116,6 +117,7 @@ const SidebarLayout = ({ location }) => (
             />
           ) : null} */}
           <ul className={'sideBarUL'}>
+          <li class="showFrontLine firstLevel item "><Link to="/"><p style={{margin: '10px'}}>Introduction</p></Link></li>
             <Tree edges={allMdx.edges} />
             {/* {config.sidebar.links && config.sidebar.links.length > 0 && <Divider />}
             {config.sidebar.links.map((link, key) => {

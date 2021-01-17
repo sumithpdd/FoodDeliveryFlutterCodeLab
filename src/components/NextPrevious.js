@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Link from './link';
+import { GlobalDispatchContext} from '../context/GlobalContextProvider'
 
 import { StyledNextPrevious } from './styles/PageNavigationButtons';
 
 const NextPrevious = ({ mdx, nav }) => {
+  const dispatch = useContext(GlobalDispatchContext);
+
   let currentIndex;
 
   const currentPaginationInfo = nav.map((el, index) => {
@@ -46,11 +49,25 @@ const NextPrevious = ({ mdx, nav }) => {
       previousInfo.title = nav[currentIndex - 1].title;
     }
   }
+const changeStatus = (index) => {
+    let constssd = { 
+      type: "LINK_THEME",
+      data: index
+    }
+    return (
+      dispatch(constssd)
+    )
 
+    // if(checktick.indexOf(index) === -1){
+    //   setChecktick([...checktick, index]);
+    //   dispatch(toggleDarkMode(index))
+    // }
+    // return 'addd';
+  }
   return (
     <StyledNextPrevious>
       {previousInfo.url && currentIndex >= 0 ? (
-        <Link to={nav[currentIndex - 1].url} className={'previousBtn'}>
+        <Link to={nav[currentIndex - 1].url} className={'previousBtn'} onClick={() => changeStatus(nav[currentIndex - 1].url)}>
           <div className={'leftArrow'}>
             <svg
               preserveAspectRatio="xMidYMid meet"
@@ -82,7 +99,7 @@ const NextPrevious = ({ mdx, nav }) => {
         </Link>
       ) : null}
       {nextInfo.url && currentIndex >= 0 ? (
-        <Link to={nav[currentIndex + 1].url} className={'nextBtn'}>
+        <Link to={nav[currentIndex + 1].url} className={'nextBtn'} onClick={() => changeStatus(nav[currentIndex + 1].url)}>
           <div className={'nextRightWrapper'}>
             <div className={'smallContent'}>
               <span>Next</span>
