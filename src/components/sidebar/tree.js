@@ -8,29 +8,30 @@ import Link from '../link'
  
 
 const calculateTreeData = edges => {
-  const originalData = edges;
-  // const originalData =  config.sidebar.ignoreIndex
-  // ? edges.filter(
-  //   ({
-  //     node: {
-  //       fields: { slug },
-  //     },
-  //   }) => slug !== '/'
-  // )
-  // : edges;
+ 
+  const originalData =  config.sidebar.ignoreIndex
+  ? edges.filter(
+    ({
+      node: {
+        fields: { slug },
+      },
+    }) => slug !== '/'
+  )
+  : edges;
     
 
   const tree = originalData.reduce(
     (
       accu,
       {
-        node: {
-          fields: { slug, title },
+        node: { 
+          fields:{slug, title},
+          frontmatter: {stepNo}
         },
       }
     ) => {
       const parts = slug.split('/');
-
+ 
       let { items: prevItems } = accu;
 
       const slicedParts =
@@ -57,12 +58,14 @@ const calculateTreeData = edges => {
       if (existingItem) {
         existingItem.url = slug;
         existingItem.title = title;
+        existingItem.stepNo = stepNo;
       } else {
         prevItems.push({
           label: parts[slicedLength],
           url: slug,
           items: [],
           title,
+          stepNo
         });
       }
       return accu;
@@ -104,7 +107,7 @@ const calculateTreeData = edges => {
     }
     // sort items alphabetically.
     prevItems.map(item => {
-      item.items = item.items.sort(function (a, b) {
+       item.items = item.items.sort(function (a, b) {
         if (a.label < b.label) return -1;
         if (a.label > b.label) return 1;
         return 0;
@@ -126,18 +129,13 @@ const Tree = ({ edges }) => {
   
   const dispatch = useContext(GlobalDispatchContext);
   const state = useContext(GlobalStateContext);
-  // console.log('state');
-  // console.log(state.linklist);
-  // console.log('logforaddtocart');
-   
+    
   let [treeData] = useState(() => {
     return calculateTreeData(edges);
   });
 
 
-  console.log('ssdfsd');
-  console.log(treeData);
-
+   
   const defaultCollapsed = {};
 
   treeData.items.forEach(item => {
@@ -160,9 +158,7 @@ const Tree = ({ edges }) => {
   if (typeof document != 'undefined') {
     location = document.location;
   }
-  // let active =
-  //   location && (location.pathname === url || location.pathname === config.gatsby.pathPrefix + url);
-
+ 
   let calculatedClassName = `showFrontLine firstLevel item `;
 
 
@@ -176,15 +172,20 @@ const Tree = ({ edges }) => {
       dispatch(constssd)
     )
 
-    // if(checktick.indexOf(index) === -1){
-    //   setChecktick([...checktick, index]);
-    //   dispatch(toggleDarkMode(index))
-    // }
-    // return 'addd';
+    
   } 
-  treeData.items.shift();
+//  treeData.items.shift();
+// sort items alphabetically.
+treeData.items.map(item => { 
+  treeData.items = treeData.items.sort(function (a, b) {
+    if (a.label < b.label) return -1;
+    if (a.label > b.label) return 1;
+    return 0;
+  });
+});
    return (
     treeData.items.map((item, index) => (
+     // item.url !== '/' ?
       <li className={calculatedClassName} key={index+1}>
         {
         item.title && (
@@ -201,6 +202,7 @@ const Tree = ({ edges }) => {
         )}
 
       </li>
+      //:''
     ))
   );
 

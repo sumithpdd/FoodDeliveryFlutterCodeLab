@@ -94,18 +94,21 @@ const Divider = styled(props => (
 const SidebarLayout = ({ location }) => (
   <StaticQuery
     query={graphql`
-      query {
-        allMdx (sort: {fields: frontmatter___stepNo, order: ASC}){
-          edges {
-            node {
-              fields {
-                slug
-                title
-              }
+    {
+      allMdx(sort: {fields: frontmatter___stepNo, order: ASC}) {
+        edges {
+          node {
+            fields {
+              slug
+              title
+            }
+            frontmatter {
+              stepNo
             }
           }
         }
       }
+    }
     `}
     render={({ allMdx }) => {
       return (
