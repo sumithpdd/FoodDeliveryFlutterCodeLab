@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
+import { GlobalDispatchContext, GlobalStateContext} from '../../context/GlobalContextProvider'
+  
 import config from '../../../config';
-import TreeNode from './treeNode';
-import Link from '../link';
+//import TreeNode from './treeNode';
+import Link from '../link'
+ 
  
 
 const calculateTreeData = edges => {
-  const originalData = config.sidebar.ignoreIndex
-    ? edges.filter(
-      ({
-        node: {
-          fields: { slug },
-        },
-      }) => slug !== '/'
-    )
-    : edges;
+  const originalData = edges;
+  // const originalData =  config.sidebar.ignoreIndex
+  // ? edges.filter(
+  //   ({
+  //     node: {
+  //       fields: { slug },
+  //     },
+  //   }) => slug !== '/'
+  // )
+  // : edges;
+    
 
   const tree = originalData.reduce(
     (
@@ -118,11 +123,20 @@ const calculateTreeData = edges => {
 };
 
 const Tree = ({ edges }) => {
+  
+  const dispatch = useContext(GlobalDispatchContext);
+  const state = useContext(GlobalStateContext);
+  // console.log('state');
+  // console.log(state.linklist);
+  // console.log('logforaddtocart');
+   
   let [treeData] = useState(() => {
     return calculateTreeData(edges);
   });
 
 
+  console.log('ssdfsd');
+  console.log(treeData);
 
   const defaultCollapsed = {};
 
@@ -153,24 +167,30 @@ const Tree = ({ edges }) => {
 
 
 
-  const [checktick, setChecktick] = React.useState([]);
-  const changeStatus = (index) => {
-    if(checktick.indexOf(index) === -1){
-      setChecktick([...checktick, index]);
+   const changeStatus = (index) => {
+    let constssd = { 
+      type: "LINK_THEME",
+      data: index
     }
-    return 'addd';
-  }
-  console.log('leftecktick');
-  console.log(checktick);
-  return (
+    return (
+      dispatch(constssd)
+    )
+
+    // if(checktick.indexOf(index) === -1){
+    //   setChecktick([...checktick, index]);
+    //   dispatch(toggleDarkMode(index))
+    // }
+    // return 'addd';
+  } 
+  treeData.items.shift();
+   return (
     treeData.items.map((item, index) => (
       <li className={calculatedClassName} key={index+1}>
         {
         item.title && (
           <Link to={item.url} onClick={() => changeStatus(item.url)}>
-            {
-
-              (checktick.indexOf(item.url) !== -1) ?
+            { 
+              (state.linklist.indexOf(item.url) !== -1) ?
                 <div className="checkGreen">
                   <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16"><path d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"></path></svg>
                 </div> : index+1
