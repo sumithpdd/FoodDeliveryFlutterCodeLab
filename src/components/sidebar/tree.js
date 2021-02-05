@@ -8,29 +8,30 @@ import Link from '../link'
  
 
 const calculateTreeData = edges => {
-  const originalData = edges;
-  // const originalData =  config.sidebar.ignoreIndex
-  // ? edges.filter(
-  //   ({
-  //     node: {
-  //       fields: { slug },
-  //     },
-  //   }) => slug !== '/'
-  // )
-  // : edges;
+ 
+  const originalData =  config.sidebar.ignoreIndex
+  ? edges.filter(
+    ({
+      node: {
+        fields: { slug },
+      },
+    }) => slug !== '/'
+  )
+  : edges;
     
 
   const tree = originalData.reduce(
     (
       accu,
       {
-        node: {
-          fields: { slug, title },
+        node: { 
+          fields:{slug, title},
+          frontmatter: {stepNo}
         },
       }
     ) => {
       const parts = slug.split('/');
-
+ 
       let { items: prevItems } = accu;
 
       const slicedParts =
@@ -57,12 +58,14 @@ const calculateTreeData = edges => {
       if (existingItem) {
         existingItem.url = slug;
         existingItem.title = title;
+        existingItem.stepNo = stepNo;
       } else {
         prevItems.push({
           label: parts[slicedLength],
           url: slug,
           items: [],
           title,
+          stepNo
         });
       }
       return accu;
@@ -104,7 +107,7 @@ const calculateTreeData = edges => {
     }
     // sort items alphabetically.
     prevItems.map(item => {
-      item.items = item.items.sort(function (a, b) {
+       item.items = item.items.sort(function (a, b) {
         if (a.label < b.label) return -1;
         if (a.label > b.label) return 1;
         return 0;
@@ -126,18 +129,13 @@ const Tree = ({ edges }) => {
   
   const dispatch = useContext(GlobalDispatchContext);
   const state = useContext(GlobalStateContext);
-  // console.log('state');
-  // console.log(state.linklist);
-  // console.log('logforaddtocart');
-   
+    
   let [treeData] = useState(() => {
     return calculateTreeData(edges);
   });
 
 
-  console.log('ssdfsd');
-  console.log(treeData);
-
+   
   const defaultCollapsed = {};
 
   treeData.items.forEach(item => {
@@ -160,9 +158,7 @@ const Tree = ({ edges }) => {
   if (typeof document != 'undefined') {
     location = document.location;
   }
-  // let active =
-  //   location && (location.pathname === url || location.pathname === config.gatsby.pathPrefix + url);
-
+ 
   let calculatedClassName = `showFrontLine firstLevel item `;
 
 
@@ -176,21 +172,28 @@ const Tree = ({ edges }) => {
       dispatch(constssd)
     )
 
-    // if(checktick.indexOf(index) === -1){
-    //   setChecktick([...checktick, index]);
-    //   dispatch(toggleDarkMode(index))
-    // }
-    // return 'addd';
+    
   } 
-  treeData.items.shift();
+//  treeData.items.shift();
+// sort items alphabetically.
+treeData.items.map(item => { 
+  treeData.items = treeData.items.sort(function (a, b) {
+    if (a.label < b.label) return -1;
+    if (a.label > b.label) return 1;
+    return 0;
+  });
+});
+console.log(state);
+ 
    return (
     treeData.items.map((item, index) => (
+    
       <li className={calculatedClassName} key={index+1}>
         {
         item.title && (
           <Link to={item.url} onClick={() => changeStatus(item.url)}>
-            { 
-              (state.linklist.indexOf(item.url) !== -1) ?
+            {  
+              state.linklist && (state.linklist.indexOf(item.url) !== -1) ?
                 <div className="checkGreen">
                   <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16"><path d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"></path></svg>
                 </div> : index+1
@@ -201,6 +204,7 @@ const Tree = ({ edges }) => {
         )}
 
       </li>
+     
     ))
   );
 
