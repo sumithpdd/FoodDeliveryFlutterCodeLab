@@ -120,7 +120,7 @@ const SidebarLayout = ({ location }) => (
             />
           ) : null} */}
           <ul className={'sideBarUL'}>
-          <li class="showFrontLine firstLevel item "><Link to="/"><p style={{margin: '10px'}}>Introduction</p></Link></li>
+          <li className="showFrontLine firstLevel item "><Link to="/"><p style={{margin: '10px'}}>Introduction</p></Link></li>
             <Tree edges={allMdx.edges} />
             {/* {config.sidebar.links && config.sidebar.links.length > 0 && <Divider />}
             {config.sidebar.links.map((link, key) => {

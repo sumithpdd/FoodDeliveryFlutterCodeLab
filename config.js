@@ -10,11 +10,11 @@ const config = {
       logoLink: 'https://www.magostech.com/',
       title:
         "<a href='https://www.magostech.com/'></a>",
-      githubUrl: 'https://github.com/hasura/gatsby-gitbook-boilerplate',
+      githubUrl: 'https://github.com/sumithpdd',
       helpUrl: '',
       tweetText: '',
       social: `<li>
-          <a href="https://twitter.com/shahnawazshafiss9" target="_blank" rel="noopener">
+          <a href="https://twitter.com/sumithpdd" target="_blank" rel="noopener">
             <div class="twitterBtn">
               <img src='https://graphql-engine-cdn.hasura.io/learn-hasura/assets/homepage/twitter-brands-block.svg' alt={'Twitter'}/>
             </div>
@@ -48,11 +48,11 @@ const config = {
         links: [{ text: 'Magostech', link: 'https://magostech.com' }],
         frontline: false,
         ignoreIndex: 'index',
-        title: "<a href='https://hasura.io/learn/'>graphql </a><div class='greenCircle'></div><a href='https://hasura.io/learn/graphql/react/introduction/'>react</a>",
+        title: "Flutter Food Delivery Codelab",
     },
     siteMetadata: {
-        title: 'Food Delivery Flutter Codelab | Sumith Damodaran',
-        description: 'Documentation built with mdx. Powering hasura.io/learn ',
+        title: 'Flutter Food Delivery Codelab | Sumith Damodaran',
+        description: 'Documentation built with mdx. ',
         ogImage: null,
         docsLocation: 'https://github.com/hasura/gatsby-gitbook-boilerplate/tree/master/content',
         favicon: 'https://graphql-engine-cdn.hasura.io/img/hasura_icon_black.svg',
@@ -60,8 +60,8 @@ const config = {
     pwa: {
         enabled: false, // disabling this will also remove the existing service worker.
         manifest: {
-            name: 'Gatsby Gitbook Starter',
-            short_name: 'GitbookStarter',
+            name: 'Flutter Food Delivery Codelab',
+            short_name: 'FoodDeliveryFlutterCodelab',
             start_url: '/',
             background_color: '#6b37bf',
             theme_color: '#6b37bf',
